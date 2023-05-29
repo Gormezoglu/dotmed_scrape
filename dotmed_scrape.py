@@ -35,5 +35,6 @@ os.environ['WDM_LOCAL'] = '1'
 
 browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 
+browser.get('https://www.dotmed.com/webstore/?user=193414&description=-1&manufacturer=-1&mode=all&sort=&order=&type=parts')
 
-print(browser.get('https://www.dotmed.com/webstore/?user=193414&description=-1&manufacturer=-1&mode=all&sort=&order=&type=parts'))
+print(browser.page_source)
