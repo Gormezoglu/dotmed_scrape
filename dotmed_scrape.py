@@ -37,4 +37,20 @@ browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=optio
 
 browser.get('https://www.dotmed.com/webstore/?user=193414&description=-1&manufacturer=-1&mode=all&sort=&order=&type=parts')
 
-print(browser.page_source)
+# Find the listings on the page
+listings = browser.find_elements(By.CLASS_NAME, "ListingContainer")
+
+print(listings)
+
+# Process the listings
+for listing in listings:
+    title = listing.find_element(By.CLASS_NAME, "row listing-list ml-0 mr-0 mt-3 mb-3 listings-d").text.strip()
+    price = listing.find_element(By.CLASS_NAME, "ListingPrice").text.strip()
+    description = listing.find_element(By.CLASS_NAME, "ListingDescription").text.strip()
+
+    print("Title:", title)
+    print("Price:", price)
+    print("Description:", description)
+    print("----------------------")
+
+# listing returns blank. edit class name and try again
