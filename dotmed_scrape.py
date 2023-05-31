@@ -35,22 +35,14 @@ os.environ['WDM_LOCAL'] = '1'
 
 browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 
-browser.get('https://www.dotmed.com/webstore/?user=193414&description=-1&manufacturer=-1&mode=all&sort=&order=&type=parts')
+browser.get('https://www.dotmed.com/webstore/index.html?user=193414&sort=&listings_per_page=100&order=&type=parts&description=0&manufacturer=0&mode=all&searchPhrase=')
 
-# Find the listings on the page
-listings = browser.find_elements(By.CLASS_NAME, "ListingContainer")
+time.sleep(5)
 
-print(listings)
 
-# Process the listings
-for listing in listings:
-    title = listing.find_element(By.CLASS_NAME, "row listing-list ml-0 mr-0 mt-3 mb-3 listings-d").text.strip()
-    price = listing.find_element(By.CLASS_NAME, "ListingPrice").text.strip()
-    description = listing.find_element(By.CLASS_NAME, "ListingDescription").text.strip()
+elements = browser.find_elements(By.XPATH, "//*[starts-with(@id, 'listing_')]")
 
-    print("Title:", title)
-    print("Price:", price)
-    print("Description:", description)
-    print("----------------------")
-
-# listing returns blank. edit class name and try again
+# Extract the desired information from each element
+for element in elements:
+    listing_text = element.text
+    print(listing_text)
