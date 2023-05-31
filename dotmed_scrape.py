@@ -44,7 +44,7 @@ elements = browser.find_elements(By.XPATH, "//*[starts-with(@id, 'listing_')]")
 
 # Extract the desired information from each element
 for element in elements:
-    listing_text = element.text
+    listing_text = element.text.split('\n')
     print(listing_text)
 
 # Close the browser
