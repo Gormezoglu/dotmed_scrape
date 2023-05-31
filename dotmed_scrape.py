@@ -35,17 +35,28 @@ os.environ['WDM_LOCAL'] = '1'
 
 browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 
-browser.get('https://www.dotmed.com/webstore/index.html?user=193414&sort=&listings_per_page=100&order=&type=parts&description=0&manufacturer=0&mode=all&searchPhrase=')
+base_url = "https://www.dotmed.com/webstore/?user=193414&description=-1&manufacturer=-1&mode=all&sort=&order=&type=parts"
+browser.get(base_url)
 
-time.sleep(5)
+# Scrape href values from each page
+while True:
+    # Find all elements with a similar XPath pattern
+    elements = browser.find_elements(By.XPATH, "//*[starts-with(@id, 'listing_')]")
+
+    # Extract the href values from child elements
+    for element in elements:
+        listing_text = element.text.split('\n')
+        href_value = element.find_element(By.XPATH, ".//a").get_attribute("href")
+        print(listing_text,",",href_value)
 
 
-elements = browser.find_elements(By.XPATH, "//*[starts-with(@id, 'listing_')]")
+    # Check if there is a next page button
+    next_button = browser.find_element(By.XPATH, "//a[@aria-label='Next']")
+    if not next_button.is_enabled():
+        break
 
-# Extract the desired information from each element
-for element in elements:
-    listing_text = element.text.split('\n')
-    print(listing_text)
+    # Go to the next page
+    next_button.click()
+    time.sleep(2)
 
-# Close the browser
 browser.quit()
