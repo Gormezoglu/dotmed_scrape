@@ -46,3 +46,6 @@ elements = browser.find_elements(By.XPATH, "//*[starts-with(@id, 'listing_')]")
 for element in elements:
     listing_text = element.text
     print(listing_text)
+
+# Close the browser
+browser.quit()
