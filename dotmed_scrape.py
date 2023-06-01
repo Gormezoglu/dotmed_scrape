@@ -1,17 +1,17 @@
 # Purpose: Scrape dotmed.com for medical equipment listings
-
-
 import io
 import os
 import csv
+import time
+from datetime import datetime
 import pandas as pd
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import StaleElementReferenceException,NoSuchElementException
-import time
-from datetime import datetime
+
+
 
 
 options = Options()
@@ -35,8 +35,8 @@ os.environ['WDM_LOCAL'] = '1'
 
 browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 
-base_url = "https://www.dotmed.com/webstore/?user=193414&description=-1&manufacturer=-1&mode=all&sort=&order=&type=parts"
-browser.get(base_url)
+BASE_URL = "https://www.dotmed.com/webstore/?user=193414&description=0&manufacturer=0&mode=all&sort=&order=&type=parts"
+browser.get(BASE_URL)
 
 # Scrape href values from each page
 while True:
@@ -49,14 +49,29 @@ while True:
         href_value = element.find_element(By.XPATH, ".//a").get_attribute("href")
         print(listing_text,",",href_value)
 
+    try:
+        # Find the element containing ">>" text and click it
+        next_button = browser.find_element(By.XPATH, "//*[contains(text(), '»')]")
+        # Check if the element is clickable
+        if next_button.is_enabled():
+            next_button.click()
+            time.sleep(5)  # Add a short delay to allow the page to load
+        else:
+            print("No next buttons")
+            break
 
-    # Check if there is a next page button
-    next_button = browser.find_element(By.XPATH, "//a[@aria-label='Next']")
-    if not next_button.is_enabled():
+    except NoSuchElementException:
+        print("No more pages")
         break
 
-    # Go to the next page
-    next_button.click()
-    time.sleep(2)
+    # try:
+    #     # Check if there is a next page button
+    #     next_button = browser.find_element(By.LINK_TEXT, '»')
+
+    #     # Go to the next page
+    #     next_button.click()
+    #     time.sleep(2)  # Add a short delay to allow the page to load
+    # except NoSuchElementException:
+    #     break
 
 browser.quit()
