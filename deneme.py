@@ -47,6 +47,7 @@ while True:
 
     # Extract the href values from child elements
     for element in elements:
+        print("length of elements: ",len(elements))
         listing_text = element.text.split('\n')
         href_value = element.find_element(By.XPATH, ".//a").get_attribute("href")
         print(listing_text,",",href_value)
