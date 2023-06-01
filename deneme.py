@@ -1,4 +1,5 @@
 # Purpose: Scrape dotmed.com for medical equipment listings
+
 import io
 import os
 import csv
@@ -41,7 +42,7 @@ browser.get(BASE_URL)
 # Scrape href values from each page
 while True:
     time.sleep(3)  # Add a short delay to allow the page to load
-    # Find all elements with a similar XPath pattern
+
     elements = browser.find_elements(By.XPATH, "//*[starts-with(@id, 'listing_')]")
 
     # Extract the href values from child elements
@@ -51,20 +52,18 @@ while True:
         print(listing_text,",",href_value)
         #print(listing_text[0].replace('.',''))
 
+
     try:
-        # Find the element containing "»" text and click it
-        next_button = browser.find_element(By.XPATH, "//*[contains(text(), '»')]")
-        # Check if the element is clickable
-        if next_button.is_enabled():
-            time.sleep(2)  # Add a short delay to allow the page to load
-            next_button.click()
-            time.sleep(5)  # Add a short delay to allow the page to load
-        else:
-            print("No next buttons")
-            break
- 
+        offset = str(listing_text[0].replace('.',''))
+        #print(offset)
+        url = f"https://www.dotmed.com/webstore/?user=193414&ajaxShowCats=0&header=-1&pcode=-1&description=0&manufacturer=0&ajaxSearchCats=0&searchPhrase=&mode=all&desc=0&type=parts&order=&sort=&offset={offset}"
+        #print(url)       
+       # Load the URL
+        browser.get(url)
+        time.sleep(3)  # Add a short delay to allow the page to load
+
     except NoSuchElementException:
-        print("No more pages")
+        print("manuel link doesn't work")
         break
 
 browser.quit()
