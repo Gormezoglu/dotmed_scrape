@@ -55,6 +55,7 @@ while True:
         next_button = browser.find_element(By.XPATH, "//*[contains(text(), '»')]")
         # Check if the element is clickable
         if next_button.is_enabled():
+            time.sleep(2)  # Add a short delay to allow the page to load
             next_button.click()
             time.sleep(5)  # Add a short delay to allow the page to load
         else:
@@ -64,15 +65,5 @@ while True:
     except NoSuchElementException:
         print("No more pages")
         break
-
-    # try:
-    #     # Check if there is a next page button
-    #     next_button = browser.find_element(By.LINK_TEXT, '»')
-
-    #     # Go to the next page
-    #     next_button.click()
-    #     time.sleep(2)  # Add a short delay to allow the page to load
-    # except NoSuchElementException:
-    #     break
 
 browser.quit()
