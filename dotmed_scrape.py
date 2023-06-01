@@ -48,6 +48,7 @@ while True:
         listing_text = element.text.split('\n')
         href_value = element.find_element(By.XPATH, ".//a").get_attribute("href")
         print(listing_text,",",href_value)
+        print(listing_text[0].replace('.',''))
 
     try:
         # Find the element containing ">>" text and click it
