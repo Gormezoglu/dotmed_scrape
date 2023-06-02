@@ -52,9 +52,9 @@ while True:
     for element in elements:
         print("length of elements: ",len(elements))
         listing_text = element.text.split('\n')
-        href_value = element.find_element(By.XPATH, ".//a").get_attribute("href")
+        href_value = element.find_element(By.XPATH, ".//a").get_attribute("href").split('/')
         print(listing_text,",",href_value)
-        new_row = {'listing_text': listing_text,'href_value': href_value}
+        new_row = {'href_value': href_value, 'listing_text': listing_text}
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
 
@@ -73,7 +73,7 @@ while True:
 
     except KeyboardInterrupt:
         print("KeyboardInterrupt")
-        df.to_csv('dotmed.csv', mode='a' ,index=False, encoding='utf-8')
+        #df.to_csv('dotmed.csv', mode='a' ,index=False, encoding='utf-8')
         break
 
 #writing to csv file
