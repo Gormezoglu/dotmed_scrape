@@ -72,11 +72,11 @@ while True:
 
     except KeyboardInterrupt:
         print("KeyboardInterrupt")
-        #df.to_csv('dotmed.csv', mode='a' ,index=False, encoding='utf-8')
+        df.to_csv('dotmed_ki.csv', mode='a' ,index=False, encoding='utf-8')
         break
 
 #writing to csv file
-df.to_csv('dotmed.csv', mode='a' ,index=False, encoding='utf-8')
+df.to_csv('dotmed_comp.csv', mode='a' ,index=False, encoding='utf-8')
 
 # Close the browser
 browser.quit()
