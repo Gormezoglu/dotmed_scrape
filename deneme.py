@@ -65,7 +65,7 @@ while True:
         #print(url)       
        # Load the URL
         browser.get(url)
-        time.sleep(3)  # Add a short delay to allow the page to load
+        #time.sleep(3)  # Add a short delay to allow the page to load
 
     except NoSuchElementException:
         print("manuel link doesn't work")
