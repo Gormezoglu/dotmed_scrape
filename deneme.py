@@ -39,6 +39,9 @@ browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=optio
 BASE_URL = "https://www.dotmed.com/webstore/?user=193414&description=0&manufacturer=0&mode=all&sort=&order=&type=parts"
 browser.get(BASE_URL)
 
+
+df = pd.DataFrame(columns=['listing_text','href_value'])
+
 # Scrape href values from each page
 while True:
     time.sleep(3)  # Add a short delay to allow the page to load
@@ -51,7 +54,8 @@ while True:
         listing_text = element.text.split('\n')
         href_value = element.find_element(By.XPATH, ".//a").get_attribute("href")
         print(listing_text,",",href_value)
-        #print(listing_text[0].replace('.',''))
+        new_row = {'listing_text': listing_text,'href_value': href_value}
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
 
     try:
@@ -67,4 +71,13 @@ while True:
         print("manuel link doesn't work")
         break
 
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt")
+        df.to_csv('dotmed.csv', mode='a' ,index=False, encoding='utf-8')
+        break
+
+#writing to csv file
+df.to_csv('dotmed.csv', mode='a' ,index=False, encoding='utf-8')
+
+# Close the browser
 browser.quit()
