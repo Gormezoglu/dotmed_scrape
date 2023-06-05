@@ -2,5 +2,13 @@
     "linux64_chromedriver_latest_for_113.0.5672": {
         "timestamp": "01/06/2023",
         "binary_path": "/workspaces/codespaces-blank/.wdm/drivers/chromedriver/linux64/113.0.5672.63/chromedriver"
+    },
+    "linux64_chromedriver_latest_for_": {
+        "timestamp": "02/06/2023",
+        "binary_path": "/mnt/d/Melih/Python Studies/DotMed/.wdm/drivers/chromedriver/linux64/114.0.5735.90/chromedriver"
+    },
+    "linux64_chromedriver_latest_for_114.0.5735": {
+        "timestamp": "05/06/2023",
+        "binary_path": "/home/gormezoglu/dotmed/.wdm/drivers/chromedriver/linux64/114.0.5735.90/chromedriver"
     }
 }

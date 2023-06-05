@@ -39,6 +39,9 @@ browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=optio
 BASE_URL = "https://www.dotmed.com/webstore/?user=193414&description=0&manufacturer=0&mode=all&sort=&order=&type=parts"
 browser.get(BASE_URL)
 
+
+df = pd.DataFrame(columns=['href_value','listing_text'])
+
 # Scrape href values from each page
 while True:
     time.sleep(3)  # Add a short delay to allow the page to load
@@ -47,11 +50,12 @@ while True:
 
     # Extract the href values from child elements
     for element in elements:
-        print("length of elements: ",len(elements))
         listing_text = element.text.split('\n')
-        href_value = element.find_element(By.XPATH, ".//a").get_attribute("href")
-        print(listing_text,",",href_value)
-        #print(listing_text[0].replace('.',''))
+        href_value = element.find_element(By.XPATH, ".//a").get_attribute("href").split('/')
+        print(str(listing_text[0].replace('.',''))," ",href_value,",",listing_text)
+        new_row = {'href_value': href_value, 'listing_text': listing_text}
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        print("df lenght: ",len(df))
 
 
     try:
@@ -61,10 +65,19 @@ while True:
         #print(url)       
        # Load the URL
         browser.get(url)
-        time.sleep(3)  # Add a short delay to allow the page to load
+        #time.sleep(3)  # Add a short delay to allow the page to load
 
     except NoSuchElementException:
         print("manuel link doesn't work")
         break
 
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt")
+        df.to_csv('dotmed_ki.csv', mode='a' ,index=False, encoding='utf-8')
+        break
+
+#writing to csv file
+df.to_csv('dotmed_comp.csv', mode='a' ,index=False, encoding='utf-8')
+
+# Close the browser
 browser.quit()
