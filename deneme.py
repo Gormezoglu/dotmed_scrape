@@ -40,7 +40,7 @@ BASE_URL = "https://www.dotmed.com/webstore/?user=193414&description=0&manufactu
 browser.get(BASE_URL)
 
 
-df = pd.DataFrame(columns=['listing_text','href_value'])
+df = pd.DataFrame(columns=['href_value','listing_text'])
 
 # Scrape href values from each page
 while True:
@@ -52,9 +52,10 @@ while True:
     for element in elements:
         listing_text = element.text.split('\n')
         href_value = element.find_element(By.XPATH, ".//a").get_attribute("href").split('/')
-        print(listing_text,",",href_value)
+        print(str(listing_text[0].replace('.',''))," ",href_value,",",listing_text)
         new_row = {'href_value': href_value, 'listing_text': listing_text}
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        print("df lenght: ",len(df))
 
 
     try:
